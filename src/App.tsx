@@ -4,7 +4,6 @@ import {
   BarChart3,
   BriefcaseBusiness,
   Check,
-  ChevronRight,
   CircleUserRound,
   Gauge,
   Grid2X2,
@@ -57,33 +56,32 @@ function App() {
 
   return (
     <div className="site-shell">
-      <aside className={`side-rail ${menuOpen ? 'is-open' : ''}`}>
-        <div className="rail-top">
-          <button className="brand-mark" onClick={() => navigate('accueil')} aria-label="Retour à l'accueil">
-            <span>FC</span>
-            <i />
+      <header className="top-bar">
+        <div className="top-bar-inner">
+          <button className="top-brand" onClick={() => navigate('accueil')} aria-label="Retour à l'accueil">
+            <span className="brand-mark"><span>FC</span><i /></span>
+            <span className="top-brand-name">Fatou Cissé <strong>Gueye</strong></span>
           </button>
-          <button className="close-menu" onClick={() => setMenuOpen(false)} aria-label="Fermer le menu"><X size={20} /></button>
-        </div>
-        <div className="rail-name">Fatou Cissé<br /><strong>Gueye</strong></div>
-        <div className="rail-rule" />
-        <p className="rail-caption">Ingénieure systèmes<br />ferroviaires & data</p>
-        <nav className="main-nav" aria-label="Navigation principale">
-          {navItems.map(({ id, label, icon: Icon }) => (
-            <button key={id} className={`nav-item ${page === id ? 'active' : ''}`} onClick={() => navigate(id)}>
-              <Icon size={17} strokeWidth={1.8} />
-              <span>{label}</span>
-              {page === id && <ChevronRight size={15} className="nav-arrow" />}
-            </button>
-          ))}
-        </nav>
-        <div className="rail-bottom">
-          <div className="availability"><span className="status-dot" /> Disponible pour échanger</div>
-          <button className="rail-contact" onClick={() => navigate('contact')}>Parlons de votre projet <ArrowUpRight size={15} /></button>
-        </div>
-      </aside>
 
-      <button className="mobile-menu" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu"><Menu size={22} /></button>
+          <nav className={`top-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Navigation principale">
+            {navItems.map(({ id, label, icon: Icon }) => (
+              <button key={id} className={`top-link ${page === id ? 'active' : ''}`} onClick={() => navigate(id)}>
+                <Icon size={16} strokeWidth={1.8} />
+                <span>{label}</span>
+              </button>
+            ))}
+          </nav>
+
+          <div className="top-actions">
+            <span className="availability"><span className="status-dot" /> Disponible</span>
+            <button className="top-cta" onClick={() => navigate('contact')}>Me contacter <ArrowUpRight size={15} /></button>
+            <button className="menu-toggle" onClick={() => setMenuOpen((v) => !v)} aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={menuOpen}>
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
       <main className="page-area">
         <div className="art-header" aria-hidden="true"><span className="art-sun" /><span className="art-orbit art-orbit-one" /><span className="art-orbit art-orbit-two" /><span className="art-brush art-brush-one" /><span className="art-brush art-brush-two" /><span className="art-track" /><span className="art-dot art-dot-one" /><span className="art-dot art-dot-two" /></div>
         <div className="ambient-threads" aria-hidden="true"><span className="thread thread-one" /><span className="thread thread-two" /><span className="thread thread-three" /><span className="thread-glint" /></div>
@@ -99,22 +97,36 @@ function App() {
 }
 
 function Home({ navigate }: { navigate: (page: Page) => void }) {
-  return <section className="home-page page-content">
-    <div className="intro-block reveal">
-      <p className="eyebrow"><Sparkles size={15} /> Ingénieure en systèmes critiques</p>
-      <h1>Donner de la<br /><em>clarté</em> aux systèmes<br />complexes.</h1>
-      <p className="intro-copy">Je m’appelle <strong>Fatou Cissé Gueye</strong>. Je travaille à l’intersection de la donnée, de la validation et de la mobilité ferroviaire.</p>
-      <button className="text-link" onClick={() => navigate('parcours')}>Découvrir mon parcours <ArrowUpRight size={17} /></button>
-    </div>
-    <div className="portrait-card glass-card reveal delay-1">
-      <img src={portraitUrl} alt="Portrait d'une ingénieure" />
-      <div className="portrait-label"><span>01</span><strong>Profil professionnel</strong><span>INSA HdF</span></div>
-    </div>
-    <div className="quote-card glass-card reveal delay-2"><span className="quote-mark">“</span><p>La précision technique devient une vraie force lorsqu’elle sert un objectif simple : rendre les systèmes plus sûrs.</p><span className="quote-author">— Ma manière de travailler</span></div>
-    <div className="signal-card glass-card reveal delay-3"><div className="mini-icon"><BarChart3 size={18} /></div><span className="card-label">Aujourd’hui</span><strong>Railway<br />Data Validation</strong><div className="signal-line"><i /><i /><i /><i /><i /><i /><i /></div><small>ATC / DV · VIVERIS Technologies</small></div>
-    <div className="number-card reveal delay-2"><strong>03</strong><span>axes de travail</span><div><b>Data</b><b>Validation</b><b>Systèmes</b></div></div>
-    <div className="home-note reveal delay-3"><div className="round-icon"><ArrowUpRight size={18} /></div><p>Un profil technique, curieux et attentif à l’humain derrière chaque système.</p></div>
-  </section>;
+  return (
+    <section className="home-hero-page page-content">
+      {/* Bloc héro : photo d'abord, texte ensuite, même hauteur */}
+      <div className="hero">
+        <figure className="hero-photo glass-card reveal">
+          <img src={portraitUrl} alt="Portrait de Fatou Cissé Gueye" />
+          <figcaption className="portrait-label"><strong>Profil professionnel</strong><span>INSA HdF</span></figcaption>
+        </figure>
+
+        <div className="hero-text reveal delay-1">
+          <div>
+            <p className="eyebrow"><Sparkles size={15} /> Ingénieure en systèmes critiques</p>
+            <h1>Donner de la <em>clarté</em> aux systèmes complexes.</h1>
+            <p className="intro-copy">Je m’appelle <strong>Fatou Cissé Gueye</strong>. Je travaille à l’intersection de la donnée, de la validation et de la mobilité ferroviaire.</p>
+          </div>
+          <div className="hero-bottom">
+            <button className="hero-button" onClick={() => navigate('parcours')}>Découvrir mon parcours <ArrowUpRight size={16} /></button>
+            <div className="home-note"><div className="round-icon"><ArrowUpRight size={18} /></div><p>Un profil technique, curieux et attentif à l’humain derrière chaque système.</p></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Trois cartes de même hauteur */}
+      <div className="home-cards">
+        <div className="quote-card glass-card reveal delay-2"><span className="quote-mark">“</span><p>La précision technique devient une vraie force lorsqu’elle sert un objectif simple : rendre les systèmes plus sûrs.</p><span className="quote-author">— Ma manière de travailler</span></div>
+        <div className="signal-card glass-card reveal delay-2"><div className="mini-icon"><BarChart3 size={18} /></div><span className="card-label">Aujourd’hui</span><strong>Railway<br />Data Validation</strong><div className="signal-line"><i /><i /><i /><i /><i /><i /><i /></div><small>ATC / DV · VIVERIS Technologies</small></div>
+        <div className="number-card reveal delay-3"><strong>03</strong><span>axes de travail</span><div><b>Data</b><b>Validation</b><b>Systèmes</b></div></div>
+      </div>
+    </section>
+  );
 }
 
 function PageHeader({ kicker, title, text }: { kicker: string; title: ReactNode; text: string }) {
